@@ -70,9 +70,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void editUser(User user, String role) {
         Set<Role> roles;
         roles = userDao.showUserByName(user.getName()).getRoles();
-       /* if (role == null) {
-            roles.add(roleService.getRoleByName("GUEST"));
-        } else*/ if (!roles.contains(roleService.getRoleByName("ADMIN")) && role.equals("ADMIN")) {
+        if (role == null) {
+            roles = userDao.showUserByName(user.getName()).getRoles();
+        } else if (!roles.contains(roleService.getRoleByName("ADMIN")) && role.equals("ADMIN")) {
             roles.add(roleService.getRoleByName(role));
         } else if (roles.contains(roleService.getRoleByName("ADMIN")) && role.equals("USER")) {
             roles.clear();
@@ -87,6 +87,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
+        System.out.println(user);
         userDao.editUser(user);
     }
 

@@ -60,9 +60,6 @@ public class AdminController {
     @PostMapping(value = "/user-update/{id}")
     public String updateUserForm(@ModelAttribute("user") User user, @PathVariable("id")
                                  @RequestParam(value = "role", required=false) String  role) {
-        if (role == null) {
-            return "redirect:/admin";
-        }
         userService.editUser(user, role);
         return "redirect:/admin";
     }
